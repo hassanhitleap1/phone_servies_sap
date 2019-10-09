@@ -21,13 +21,17 @@ export default [
       { path: 'password', name: 'settings.password', component: page('settings/password.vue') }
     ] },
 
-    { path: '/phones',
-    component: page('phones/index.vue'),
-    children: [
-      { path: '', redirect: { name: 'phones.index' } },
-      { path: 'index', name: 'phones.index', component: page('phones/index.vue') },
-      { path: 'achieved', name: 'phones.achieved', component: page('phones/achieved.vue') }
-    ] },
+    // { path: '/phones',
+    // component: page('phones/index.vue'),
+    // children: [
+    //   { path: '', redirect: { name: 'phones.index' } },
+    //   { path: 'index', name: 'phones.index', component: page('phones/index.vue') },
+    //   { path: 'achieved', name: 'phones.achieved', component: page('phones/achieved.vue') }
+    // ] },
+
+     { path: '/phones',
+       component: page('phones/index.vue'),
+     },
 
   { path: '*', component: page('errors/404.vue') }
 ]

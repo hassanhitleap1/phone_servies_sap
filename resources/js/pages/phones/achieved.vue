@@ -1,23 +1,23 @@
 <template>
-  <card :title="$t('your_password')">
+  <card :title="$t('your_info')">
     <form @submit.prevent="update" @keydown="form.onKeydown($event)">
-      <alert-success :form="form" :message="$t('password_updated')" />
+      <alert-success :form="form" :message="$t('info_updated')" />
 
-      <!-- Password -->
+      <!-- Name -->
       <div class="form-group row">
-        <label class="col-md-3 col-form-label text-md-right">{{ $t('new_password') }}</label>
+        <label class="col-md-3 col-form-label text-md-right">{{ $t('name') }}</label>
         <div class="col-md-7">
-          <input v-model="form.password" :class="{ 'is-invalid': form.errors.has('password') }" class="form-control" type="password" name="password">
-          <has-error :form="form" field="password" />
+          <input v-model="form.name" :class="{ 'is-invalid': form.errors.has('name') }" class="form-control" type="text" name="name">
+          <has-error :form="form" field="name" />
         </div>
       </div>
 
-      <!-- Password Confirmation -->
+      <!-- Email -->
       <div class="form-group row">
-        <label class="col-md-3 col-form-label text-md-right">{{ $t('confirm_password') }}</label>
+        <label class="col-md-3 col-form-label text-md-right">{{ $t('email') }}</label>
         <div class="col-md-7">
-          <input v-model="form.password_confirmation" :class="{ 'is-invalid': form.errors.has('password_confirmation') }" class="form-control" type="password" name="password_confirmation">
-          <has-error :form="form" field="password_confirmation" />
+          <input v-model="form.email" :class="{ 'is-invalid': form.errors.has('email') }" class="form-control" type="email" name="email">
+          <has-error :form="form" field="email" />
         </div>
       </div>
 
@@ -35,6 +35,7 @@
 
 <script>
 import Form from 'vform'
+import { mapGetters } from 'vuex'
 
 export default {
   scrollToTop: false,
@@ -45,16 +46,27 @@ export default {
 
   data: () => ({
     form: new Form({
-      password: '',
-      password_confirmation: ''
+      name: '',
+      email: ''
     })
   }),
 
+  computed: mapGetters({
+    user: 'auth/user'
+  }),
+
+  created () {
+    // Fill the form with user data.
+    this.form.keys().forEach(key => {
+      this.form[key] = this.user[key]
+    })
+  },
+
   methods: {
     async update () {
-      await this.form.patch('/api/settings/password')
+      const { data } = await this.form.patch('/api/settings/profile')
 
-      this.form.reset()
+      this.$store.dispatch('auth/updateUser', { user: data })
     }
   }
 }

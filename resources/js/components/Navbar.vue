@@ -19,6 +19,11 @@
 
         <ul class="navbar-nav ml-auto">
           <!-- Authenticated -->
+          <li class="nav-item" v-if="user">
+              <router-link :to="{ name: 'phones.index' }" class="nav-link" active-class="active">
+                {{ $t('phones') }}
+              </router-link>
+            </li>
           <li v-if="user" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-dark"
                href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
