@@ -1,4 +1,5 @@
 <template>
+<div>
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -10,7 +11,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr v-for="(phone,index)  in phones">
+    <tr v-for="(phone,index)  in phones.data">
       <th scope="row">{{phone.id}}</th>
       <td>{{phone.number}}</td>
       <td>{{phone.name}}</td>
@@ -24,25 +25,21 @@
     </tr>
   </tbody>
 </table>
+<pagination :data="phones" @pagination-change-page="getResults"></pagination>
+</div>
 </template>
 
 
-<pagination :data="laravelData">
-	<span slot="prev-nav">&lt; Previous</span>
-	<span slot="next-nav">Next &gt;</span>
-</pagination>
+
 
 
 <script>
 const axios = require('axios').default;
-import Vue from 'vue';
-Vue.component('pagination', require('laravel-vue-pagination'));
 export default {
   middleware: 'auth',
   data() {
     return {
-     phones:[] ,
-      laravelData: {},
+     phones:{} ,
     }
   },
   mounted() {
@@ -52,8 +49,7 @@ export default {
     getResults(page = 1) {
 			axios.get('api/phones?page=' + page)
 				.then(response => {
-           this.phones =response.data.data.data;
-					 this.laravelData = response.data;
+					 this.phones = response.data.data;
 				}).catch(function (error) {
             // handle error
               console.log(error);
@@ -67,7 +63,7 @@ export default {
 
       axios.get('api/phones/add_action_call/'+id)
       .then(response =>{
-        this.phones[index].action =response.data;
+        this.phones.data[index].action =response.data;
       }).catch(function (error) {
           // handle error
             console.log(error);
