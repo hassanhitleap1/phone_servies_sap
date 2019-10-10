@@ -44,3 +44,4 @@ Route::group(['middleware' => 'guest:api'], function () {
 
 Route::get('/phones', 'Phones\PhoneController@index');
 Route::get('/phones/add_action_call/{id}', 'Phones\ActionPhoneUsersController@addCall');
+Route::post('/phones/add_action_note/{id}', 'Phones\ActionPhoneUsersController@addNote');
