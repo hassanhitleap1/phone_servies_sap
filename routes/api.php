@@ -24,6 +24,11 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     Route::patch('settings/profile', 'Settings\ProfileController@update');
     Route::patch('settings/password', 'Settings\PasswordController@update');
+
+    Route::get('/phones', 'Phones\PhoneController@index');
+    Route::get('/phones/add_action_call/{id}', 'Phones\ActionPhoneUsersController@addCall');
+    Route::get('/phones/get_action_data/{id}', 'Phones\ActionPhoneUsersController@getActionData');
+    Route::post('/phones/add_action_note/{id}', 'Phones\ActionPhoneUsersController@addNote');
 });
 
 Route::group(['middleware' => 'guest:api'], function () {
@@ -42,6 +47,3 @@ Route::group(['middleware' => 'guest:api'], function () {
    
 });
 
-Route::get('/phones', 'Phones\PhoneController@index');
-Route::get('/phones/add_action_call/{id}', 'Phones\ActionPhoneUsersController@addCall');
-Route::post('/phones/add_action_note/{id}', 'Phones\ActionPhoneUsersController@addNote');

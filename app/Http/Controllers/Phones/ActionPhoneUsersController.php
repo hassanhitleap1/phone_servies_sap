@@ -40,18 +40,21 @@ class ActionPhoneUsersController extends ApiController
             $newaction=new ActionPhoneUsers();
             $newaction->phone_id=$id;
             $newaction->note=$request->note;
-            $newaction->user_id=1;
+            $newaction->user_id=0;
             $newaction->status_action_phones_id=0;
             $newaction->save();
             return $this->showOne($newaction);
         }
-        $action->status_action_phones_id=1;
+        $action->status_action_phones_id=0;
         $action->note=$request->note;
         $action->save();
         return $this->showOne($action);
         
     }
 
-
-    
+    public function getActionData($id){
+        $action =  ActionPhoneUsers::where('phone_id',$id)->first();
+        return $this->showOne($action);
+    }
+       
 }

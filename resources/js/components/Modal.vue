@@ -14,10 +14,39 @@
                             </button>
                         </div>
                          <div class="modal-body">
-                            
+                         
+
+                        <form @submit.prevent="addNote" @keydown="form.onKeydown($event)">
+      <alert-success :form="form" :message="$t('password_updated')" />
+
+      <!-- Password -->
+      <div class="form-group row">
+        <label class="col-md-3 col-form-label text-md-right">{{ $t('note') }}</label>
+        <div class="col-md-7">
+        <textarea  v-model="form.note"  class="form-control " :class="{ 'is-invalid': form.errors.has('note') }"  name="note" rows="10"></textarea>
+          <has-error :form="form" field="note" />
+        </div>
+      </div>
+
+     
+
+      <!-- Submit Button -->
+      <div class="form-group row">
+        <div class="col-md-9 ml-md-auto">
+       <v-button :loading="form.busy" type="success" >
+                                {{ $t('add') }}
+                            </v-button>
+        </div>
+      </div>
+    </form>
+
+
                         </div>
 
-                        <slot></slot>
+                       <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" @click="close">Cancel</button>
+                          
+                        </div>
                     </div>
                 </div>
             </div>
@@ -29,6 +58,8 @@
 
 
 <script type="text/babel">
+import Form from 'vform';
+const axios = require('axios').default;
     export default {
         props: {
             "title": {default: ""},
@@ -39,9 +70,15 @@
             "backdropClose": {default: true},
             "backdropCloseConfirm": {default: false},
             "backdropCloseConfirmText": {default: "Are you sure?"},
+            "phoneId": {default: 1},
+            "indexColumn":{default: 1},
+          
         },
         data() {
-            return {}
+            return {
+                   form: new Form({note: ''}),
+                   phone:{}
+            }
         },
         methods: {
             close() {
@@ -56,9 +93,31 @@
                 }
                 this.close();
             },
-            addNote(id){
+        
+         addNote () {
+              this.form.post('api/phones/add_action_note/'+this.phoneId)
+                .then(({ data }) => { console.log(data) })
+            this.form.reset();
+             this.$emit("close");
+        },
+        getResult(){
+            	axios.get('api/phones/get_action_data/'+this.phoneId)
+				.then(response => {
+					 this.phone = response.data.data;
+                      if(this.phone !=null   ){
+                        this.form.note=this.phone.note; 
+                         console.log("this.form.note",this.form.note) 
+                        }
+                     
+				}).catch(function (error) {
+            // handle error
+            
+              console.log(error);
+          });
 
-            }
+          
+        }
+            
         },
         computed: {
             modalSizeClasses() {
@@ -72,6 +131,7 @@
             }
         },
         mounted() {
+            this.getResult();
         },
         destroyed() {
         }
