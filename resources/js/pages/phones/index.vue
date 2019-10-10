@@ -18,14 +18,22 @@
       <td>{{phone.status}}</td>
       <td>
        <li @click="do_call(phone.id,index)">
-     
         call  <fa :icon="['fas', 'phone-square']"   :mask="['fas', 'circle']"  :class="[ phone.action==null ? 'green' : 'red']"/> 
+
+        add note  <fa :icon="['fas', 'text-height']"   @click="showModal" />
+        
       </li>
       </td>
     </tr>
   </tbody>
 </table>
 <pagination :data="phones" @pagination-change-page="getResults"></pagination>
+    <modal title="Hello World" :is-small="false" v-if="isModalVisible" @close="isModalVisible = false">
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" @click="isModalVisible = false">Cancel</button>
+          <button type="button" class="btn btn-primary" @click="alert('Hello!')">Hello Sir</button>
+      </div>
+    </modal>
 </div>
 </template>
 
@@ -35,11 +43,16 @@
 
 <script>
 const axios = require('axios').default;
+import Modal from '../../components/Modal.vue';
 export default {
   middleware: 'auth',
+   components: {
+      Modal,
+    },
   data() {
     return {
      phones:{} ,
+     isModalVisible: false,
     }
   },
   mounted() {
@@ -74,7 +87,13 @@ export default {
         console.log("index",index);
         console.log("index",id);
     
-    }
+    },
+      showModal() {
+        this.isModalVisible = true;
+      },
+      closeModal() {
+        this.isModalVisible = false;
+      }
   },
 
 }
