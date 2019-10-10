@@ -20,7 +20,7 @@
         <ul class="navbar-nav ml-auto">
           <!-- Authenticated -->
           <li class="nav-item" v-if="user">
-              <router-link :to="{ name: 'phones.index' }" class="nav-link" active-class="active">
+              <router-link :to="{ name: 'phones' }" class="nav-link" active-class="active">
                 {{ $t('phones') }}
               </router-link>
             </li>
