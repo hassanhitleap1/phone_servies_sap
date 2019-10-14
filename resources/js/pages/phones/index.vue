@@ -36,8 +36,12 @@
     </tr>
   </tbody>
 </table>
-<pagination :data="phones" @pagination-change-page="getResults" ></pagination>
-    <modal :title="phoneNumber" :is-small="false" v-if="isModalVisible" @close="closeModal" :phoneId="phoneId" :indexColumn="indexColumn" >
+<div class="row">
+ <div class="col-12">
+    <pagination :data="phones" @pagination-change-page="getResults" :show-disabled='true' align='center' size="small" :limit="5" ></pagination>
+  </div >
+</div>  
+<modal :title="phoneNumber" is-small='true' v-if="isModalVisible" @close="closeModal" :phoneId="phoneId" :indexColumn="indexColumn" >
     </modal>
 </div>
 </template>
