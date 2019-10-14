@@ -25,6 +25,10 @@ export default [
        component: page('phones/index.vue'),
        name:'phones'
      },
+     { path: '/phones/achieved',
+     component: page('phones/achieved.vue'),
+     name:'phones.achieved'
+   },
 
   { path: '*', component: page('errors/404.vue') }
 ]

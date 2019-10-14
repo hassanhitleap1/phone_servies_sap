@@ -19,11 +19,28 @@
 
         <ul class="navbar-nav ml-auto">
           <!-- Authenticated -->
-          <li class="nav-item" v-if="user">
-              <router-link :to="{ name: 'phones' }" class="nav-link" active-class="active">
-                {{ $t('phones') }}
+      
+          <li v-if="user" class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle text-dark"
+               href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+            >
+              {{ $t('phones') }}
+            </a>
+            <div class="dropdown-menu">
+              <router-link :to="{ name: 'phones' }" class="dropdown-item pl-3">
+                <fa  :icon="['fas', 'phone-square']"   :mask="['fas', 'circle']" :style="{ color: 'green' }" /> 
+                {{ $t('call_phone') }}
               </router-link>
-            </li>
+
+              <div class="dropdown-divider" />
+                  <router-link :to="{ name: 'phones.achieved' }" class="dropdown-item pl-3">
+                <fa icon="fa-phone" fixed-width />
+                <fa  :icon="['fas', 'phone-square']"   :mask="['fas', 'circle']" :style="{ color: 'red' }" /> 
+                {{ $t('achieved_phone') }}
+              </router-link>
+            </div>
+            
+          </li>
           <li v-if="user" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle text-dark"
                href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
