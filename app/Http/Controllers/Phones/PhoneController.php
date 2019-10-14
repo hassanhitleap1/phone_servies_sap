@@ -15,7 +15,7 @@ class PhoneController extends ApiController
      */
     public function index()
     {
-        $phones= Phone::where('status',Phone::Available)->doesnthave('action')->with('action')->paginate(15);
+        $phones= Phone::where('status',Phone::Available)->orderBy('order','asc')->doesnthave('action')->with('action')->paginate(15);
        return $this->showAllPaginate($phones);
     }
 
@@ -27,7 +27,7 @@ class PhoneController extends ApiController
      */
     public function achieved()
     {
-        $phones= Phone::has('action')->with('action')->paginate(15);
+        $phones= Phone::orderBy('order','asc')->has('action')->with('action')->paginate(15);
        return $this->showAllPaginate($phones);
     }
 
