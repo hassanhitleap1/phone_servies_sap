@@ -1,5 +1,6 @@
 <template>
 <div>
+<pulse-loader :loading="loading" :color="color" :height="40" :size="size"></pulse-loader>
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -41,7 +42,10 @@
     <pagination :data="phones" @pagination-change-page="getResults" :show-disabled='true' align='center' size="small" :limit="5" ></pagination>
   </div >
 </div>  
-<modal :title="phoneNumber" is-small='true' v-if="isModalVisible" @close="closeModal" :phoneId="phoneId" :indexColumn="indexColumn" >
+
+
+
+<modal :title="phoneNumber" is-small='false' v-if="isModalVisible" @close="closeModal" :phoneId="phoneId" :indexColumn="indexColumn" >
     </modal>
 </div>
 </template>
@@ -52,11 +56,14 @@
 
 <script>
 const axios = require('axios').default;
+import { PulseLoader } from 'vue-spinner/dist/vue-spinner.min.js';
+
 import Modal from '../../components/Modal.vue';
 export default {
   middleware: 'auth',
    components: {
       Modal,
+      PulseLoader
     },
   data() {
     return {
@@ -64,7 +71,9 @@ export default {
      isModalVisible: false,
      phoneId:1,
      indexColumn:1,
-     phoneNumber:""
+     phoneNumber:"",
+     loading:false,
+     color: '#00ab00',
     }
   },
   mounted() {
@@ -73,9 +82,11 @@ export default {
   },
   methods: {
     getResults(page = 1) {
+      this.loading=true;
 			axios.get('api/phones?page=' + page)
 				.then(response => {
 					 this.phones = response.data.data;
+           this.loading=false;
 				}).catch(function (error) {
             // handle error
               console.log(error);
