@@ -18,6 +18,8 @@ class CreatePhonesTable extends Migration
             $table->string('number');
             $table->string('name');
             $table->smallInteger('status');
+            $table->integer('order');
+            $table->smallInteger('type');
             $table->timestamps();
         });
     }
