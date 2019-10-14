@@ -26,6 +26,8 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::patch('settings/password', 'Settings\PasswordController@update');
 
     Route::get('/phones', 'Phones\PhoneController@index');
+    Route::get('/phones/active/{id}', 'Phones\PhoneController@active');
+    Route::get('/phones/desactive/{id}', 'Phones\PhoneController@desactive');
     Route::get('/phones/achieved', 'Phones\PhoneController@achieved');
     Route::get('/phones/add_action_call/{id}', 'Phones\ActionPhoneUsersController@addCall');
     Route::get('/phones/get_action_data/{id}', 'Phones\ActionPhoneUsersController@getActionData');

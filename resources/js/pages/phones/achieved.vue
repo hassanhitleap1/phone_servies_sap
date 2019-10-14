@@ -15,7 +15,7 @@
       <th scope="row">{{phone.id}}</th>
       <td>{{phone.number}}</td>
       <td>{{phone.name}}</td>
-      <td>{{phone.status}}</td>
+      <td>{{(phone.status==1)?'active':'not active'}}</td>
       <td>
        
        <li  @click="do_call(phone.id,index)">
@@ -24,6 +24,16 @@
       <li  @click="showModal(phone.id,index,phone.number)">
         add note  <fa :icon="['fas', 'text-height']"    />
         </li>
+
+      <li  @click="add_to_desactive(phone.id,index)" v-if="(phone.status==1)" >
+        <fa :icon="['fas', 'times-circle']"   :class="{'red':true}"  /> 
+         add to Des Active 
+      </li>
+
+       <li  @click="add_to_active(phone.id,index)" v-else >
+        <fa :icon="['fas', 'times-circle']"   :class="{'green':true}"  /> 
+         add to Active 
+      </li>
       
       </td>
     </tr>
@@ -98,7 +108,40 @@ export default {
 
       closeModal() {
         this.isModalVisible = false;
-      }
+      },
+
+
+      add_to_active(id,index){
+
+        axios.get('/api/phones/active/'+id)
+        .then(response =>{
+       
+        	this.phones.data[index].status = response.data.data.status;
+        }).catch(function (error) {
+            // handle error
+              console.log(error);
+          })
+          .finally(function () {
+            // always executed
+          });
+    },
+
+    add_to_desactive(id,index){
+
+        axios.get('/api/phones/desactive/'+id)
+        .then(response =>{
+        
+        	 this.phones.data[index].status = response.data.data.status;
+        }).catch(function (error) {
+            // handle error
+              console.log(error);
+          })
+          .finally(function () {
+            // always executed
+          });
+    },
+
+
   },computed: {
       
   },

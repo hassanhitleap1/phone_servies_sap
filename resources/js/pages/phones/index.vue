@@ -15,15 +15,22 @@
       <th scope="row">{{phone.id}}</th>
       <td>{{phone.number}}</td>
       <td>{{phone.name}}</td>
-      <td>{{phone.status}}</td>
+      <td>{{(phone.status==1)?'active':'not active'}}</td>
       <td>
        
        <li  @click="do_call(phone.id,index)">
-        call  <fa  :icon="['fas', 'phone-square']"   :mask="['fas', 'circle']"  :class="[ phone.action==null ? 'green' : (phone.action.status_action_phones_id == 0)? 'green': 'red']"/> 
+         <fa  :icon="['fas', 'phone-square']"   :mask="['fas', 'circle']"  :class="[ phone.action==null ? 'green' : (phone.action.status_action_phones_id == 0)? 'green': 'red']"/>  call
       </li>
       <li  @click="showModal(phone.id,index,phone.number)">
-        add note  <fa :icon="['fas', 'text-height']"    />
-        </li>
+       <fa :icon="['fas', 'text-height']"    />  add note  
+      </li>
+
+      <li  @click="add_to_desactive(phone.id,index)"  >
+        <fa :icon="['fas', 'times-circle']"   :class="{'red':true}" /> 
+         add to Des Active 
+      </li>
+
+       
       
       </td>
     </tr>
@@ -58,6 +65,7 @@ export default {
   },
   mounted() {
    this.getResults();
+   
   },
   methods: {
     getResults(page = 1) {
@@ -98,9 +106,26 @@ export default {
 
       closeModal() {
         this.isModalVisible = false;
-      }
-  },computed: {
+      },
       
+      
+
+    add_to_desactive(id,index){
+
+        axios.get('api/phones/desactive/'+id)
+        .then(response =>{
+        //  delete  this.phones.data[index] ;
+         this.phones.data.splice(index,1); 
+        }).catch(function (error) {
+            // handle error
+              console.log(error);
+          })
+          .finally(function () {
+            // always executed
+          });
+    },
+  },computed: {
+  
   },
 
 }
