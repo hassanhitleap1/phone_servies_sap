@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Phones;
 
 use App\Http\Controllers\ApiController;
 use App\Model\Phone;
+use Illuminate\Support\Facades\Cache;
 
 class PhoneController extends ApiController
 {
@@ -15,7 +16,11 @@ class PhoneController extends ApiController
      */
     public function index()
     {
-        $phones= Phone::where('status',Phone::Available)->orderBy('order','asc')->doesnthave('action')->with('action')->paginate(15);
+        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $phones = Cache::remember('phones-' . $currentPage, 22*60, function() {
+            return Phone::where('status',Phone::Available)->orderBy('order','asc')->doesnthave('action')->with('action')->paginate(50);
+        });
+   
        return $this->showAllPaginate($phones);
     }
 
@@ -27,7 +32,10 @@ class PhoneController extends ApiController
      */
     public function achieved()
     {
-        $phones= Phone::orderBy('order','asc')->has('action')->with('action')->paginate(15);
+        $currentPage = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        $phones = Cache::remember('phones-achieved-' . $currentPage, 22*60, function() {
+            return Phone::orderBy('order','asc')->has('action')->with('action')->paginate(50);
+        });
        return $this->showAllPaginate($phones);
     }
 

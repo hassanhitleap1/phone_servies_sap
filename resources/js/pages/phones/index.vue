@@ -1,6 +1,7 @@
 <template>
 <div>
-<pulse-loader :loading="loading" :color="color" :height="40" :class='{"loader-center":true}'  :size="size"  ></pulse-loader>
+<pulse-loader :loading="loading" :color="color" :height="40" :class='{"loader-center":true}'  :size="size"  :id="'fisrt_loader'" ></pulse-loader>
+<pulse-loader :loading="loading" :color="color" :height="40" :class='{"loader-center-secound":true}'  :size="size"  :id="'secound_loader'"></pulse-loader>
 
 
 <table class="table">
@@ -164,5 +165,11 @@ export default {
     text-align: center;
     left: 50%;
     top: 50%;
+}
+.loader-center-secound{
+   position: absolute;
+    text-align: center;
+    left: 50%;
+    top: 477%;
 }
 </style>
