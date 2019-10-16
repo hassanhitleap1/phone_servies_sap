@@ -1,6 +1,8 @@
 <template>
 <div>
-<pulse-loader :loading="loading" :color="color" :height="40" :size="size"></pulse-loader>
+<pulse-loader :loading="loading" :color="color" :height="40" :class='{"loader-center":true}'  :size="size"  ></pulse-loader>
+
+
 <table class="table">
   <thead class="thead-dark">
     <tr>
@@ -74,6 +76,7 @@ export default {
      phoneNumber:"",
      loading:false,
      color: '#00ab00',
+     size:'60px'
     }
   },
   mounted() {
@@ -155,5 +158,11 @@ export default {
 }
 .green{
   color:green;
+}
+.loader-center{
+      position: absolute;
+    text-align: center;
+    left: 50%;
+    top: 50%;
 }
 </style>
