@@ -18,7 +18,7 @@ class CreateActionPhoneUsersTable extends Migration
             $table->integer("phone_id");
             $table->integer('user_id');
             $table->smallInteger('status_action_phones_id');
-            $table->text('note')->default("");
+            $table->text('note')->default(null);
             $table->timestamps();
         });
     }
