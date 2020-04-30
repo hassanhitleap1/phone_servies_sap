@@ -21,7 +21,7 @@
     "@saeris/vue-spinners": "^1.0.8",
     "axios": "^0.18.1",
     "bootstrap": "^4.3.1",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "js-cookie": "^2.2.0",
     "laravel-vue-pagination": "^2.3.1",
     "popper.js": "^1.15.0",
